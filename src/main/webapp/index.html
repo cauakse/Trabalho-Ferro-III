@@ -9,21 +9,23 @@
 </head>
 <body class="bg-dark">
 <div class="container-sm p-5 my-5 text-white">
-    <div class="container">
-        <h1>Bem vindo ao Play My Songs</h1>
-        <h2>Entre em sua conta</h2>
-    </div>
 
-        <div class="align-content-center justify-content-center d-flex border py-5">
-            <form action="/login-servlet" method="POST">
+
+    <div class="row">
+        <div class="container col mt-5">
+            <h1>Bem vindo ao Play My Songs</h1>
+            <h2>Entre em sua conta</h2>
+        </div>
+        <div class="align-content-center justify-content-center d-flex py-5 col">
+            <form action="login-servlet" method="POST" class="border p-5" style="border-radius: 2rem">
                 <div class="row">
-                    <div class="mb-3 mt-3 col-12">
+                    <div class="mb-3 mt-3 col">
                         <label for="email" class="form-label">Email:</label>
                         <input type="email" class="form-control" id="email" placeholder="Entre com seu email" name="email">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="mb-3 col-12">
+                    <div class="mb-3 col">
                         <label for="password" class="form-label">Password:</label>
                         <input type="password" class="form-control" id="password" placeholder="Entre com sua senha" name="password">
                     </div>
@@ -31,6 +33,8 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
         </div>
+    </div>
+
 
 </div>
 </body>
