@@ -1,44 +1,70 @@
-<%@ page import="com.example.play_my_songs.util.Usuario" %>
 <%@ page import="java.io.File" %>
+<%@ page import="com.example.play_my_songs.util.SearchFunction" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="acesso.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>JSP - Hello World</title>
+  <title>Lista de Músicas</title>
+  <link rel="stylesheet" href="styles/home.css">
+  <script src="js/search.js"></script>
 </head>
 <body>
-<%!
-Usuario usuario;
-%>
-<%
-usuario = (Usuario) session.getAttribute("user");
-%>
-<h1>Olá <%=usuario.getNome()%></h1>
+<div class="navbar">
+  <span>Olá, <%= usuario.getNome() %></span>
+  <a href="registrar.jsp">Registre uma Música</a>
+</div>
 
-<%
-  File pastaweb = new File(request.getServletContext().getRealPath("")+"/musicas");
-  if (!pastaweb.exists())
-  {
-    %>
-      <h1>Pasta não Existe</h1>
-<%
-  }
-  else {
-    %>
-    <h1>Pasta Existe</h1>
-<%
-  }
+<div class="container">
+  <div class="headD">
+    <h1>Lista de Músicas</h1>
+    <div>
+      <form id="formBusca">
+        <label for="valorDeBusca"></label>
+        <input class="searchInput" type="text" id="valorDeBusca" name="valorDeBusca" placeholder="Busque por sua música" value="<%= SearchFunction.searchName%>"/>
+        <button type="button" onclick="FiltraValores()">Buscar</button>
+      </form>
+    </div>
+  </div>
+
+
+  <%
+    File pastaweb = new File(request.getServletContext().getRealPath("") + "/musicas");
+
+    if (pastaweb.exists()) {
+      File[] arquivos = pastaweb.listFiles();
+
+      if (arquivos != null && arquivos.length > 0) {
   %>
-<%
-//  if(pastaweb.listFiles().length>0)
-//  {
-//    for (File file : pastaweb.listFiles())
-//      if(file.isFile())  // se é um arquivo e não uma pasta
-//        System.out.println(file.getAbsolutePath()+"<br>");
-//  }
-//  else{
-//    System.out.println("Nenhuma musica ainda");
-//      }
-%>
+  <ul>
+    <%
+      for (File file : arquivos) {
+        if (file.isFile() && file.getName().toLowerCase().contains(SearchFunction.searchName.toLowerCase())) {
+    %>
+    <li>
+      <h3><%=file.getName()%></h3>
+      <audio controls>
+        <source src="<%= "musicas/"+ file.getName() %>" type="audio/mpeg">
+      </audio>
+    </li>
+    <%
+        }
+      }
+    %>
+  </ul>
+  <%
+  } else {
+  %>
+  <p class="error">Nenhuma música encontrada na pasta.</p>
+  <%
+    }
+  } else {
+  %>
+  <p class="error">A pasta de músicas não existe.</p>
+  <%
+    }
+  %>
+</div>
+
 </body>
 </html>
